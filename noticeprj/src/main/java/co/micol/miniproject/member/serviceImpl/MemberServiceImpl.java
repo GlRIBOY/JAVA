@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
 		String sql = "SELECT * FROM MEMBER";
 		List<MemberVO> members = new ArrayList<MemberVO>();
 		MemberVO vo;
-		try { // 요기에 DB 처리
+		try { // 요기에 DB 처리    
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
