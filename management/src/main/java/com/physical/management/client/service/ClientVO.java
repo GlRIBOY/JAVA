@@ -10,6 +10,7 @@ public class ClientVO {
 	private int clientAge;
 	private int clientHeight;
 	private int clientWeight;
+	private String clientPhone;
 	
 	public String toString() {
 		System.out.print(clientId + " ");
@@ -17,7 +18,8 @@ public class ClientVO {
 		System.out.print(clientName + " ");
 		System.out.print(clientAge + " ");
 		System.out.print(clientHeight + " ");
-		System.out.println(clientWeight);
+		System.out.print(clientWeight + " ");
+		System.out.println(clientPhone);
 		return null;
 	}
 
