@@ -22,6 +22,7 @@ public class MainMenu {
   
 	public void run() {
 		boolean b = false;
+
 		do {
 			appTitle();
 			int menu = 0;
@@ -31,7 +32,7 @@ public class MainMenu {
 				sc.nextLine();
 				System.out.println("존재하지 않는 메뉴번호입니다.\n");
 				continue;
-			} 
+			}
 			sc.nextLine();
 			if (menu > 4 || menu < 0) {
 				System.out.println("존재하지 않는 메뉴번호입니다.\n");
@@ -101,7 +102,6 @@ public class MainMenu {
 		} while (!b);
 	}
 
-
 	public void run3() {
 		boolean b = false;
 		do {
@@ -136,7 +136,6 @@ public class MainMenu {
 		} while (!b);
 	}
 
-	
 	private void clientList() {
 		List<ClientVO> clients = cs.clientList();
 		if (!clients.isEmpty()) {
@@ -219,7 +218,7 @@ public class MainMenu {
 		} while (b);
 	}
 
-	public void clientSelectName() {
+	private void clientSelectName() {
 		boolean b = false;
 		String name = "";
 		do {
@@ -229,7 +228,7 @@ public class MainMenu {
 				return;
 			}
 			List<ClientVO> client = cs.clientSelectName(name);
-			if(client.isEmpty()) {
+			if (client.isEmpty()) {
 				System.out.println("존재하지 않는 고객명입니다.\n");
 				b = true;
 				continue;
