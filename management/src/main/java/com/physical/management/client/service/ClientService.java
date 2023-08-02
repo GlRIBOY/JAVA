@@ -8,7 +8,7 @@ public interface ClientService {
 	int clientInsert(ClientVO vo);
 	int clientDelete(ClientVO vo);
 	int clientUpdate(ClientVO vo);
-	List<ClientVO> clientSelects(int n);
+	List<ClientVO> clientSelects(String ca);
 	List<ClientVO >clientSelectName(String name);
 	
 }

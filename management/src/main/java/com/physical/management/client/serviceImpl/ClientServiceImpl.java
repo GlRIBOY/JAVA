@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
 	@Override
 	public List<ClientVO> clientList() {
 		String sql = "SELECT C.*, SUBSTR(P.CLIENT_PHONE, 1, 3)||'-'||SUBSTR(P.CLIENT_PHONE, 4, 4)||'-'||SUBSTR(P.CLIENT_PHONE, 8) AS CLIENT_PHONE "
-				    + "FROM CLIENTS C LEFT JOIN PHONE P ON C.CLIENT_ID = P.CLIENT_ID ORDER BY C.CLIENT_ID";
+				+ "FROM CLIENTS C LEFT JOIN PHONE P ON C.CLIENT_ID = P.CLIENT_ID ORDER BY C.CLIENT_ID";
 		List<ClientVO> clients = new ArrayList<ClientVO>();
 		ClientVO vo;
 		try {
@@ -73,26 +73,11 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public List<ClientVO> clientSelects(int n) {
-		String ca = "";
+	public List<ClientVO> clientSelects(String ca) {
 		String sql = "SELECT C.*, SUBSTR(P.CLIENT_PHONE, 1, 3)||'-'||SUBSTR(P.CLIENT_PHONE, 4, 4)||'-'||SUBSTR(P.CLIENT_PHONE, 8) AS CLIENT_PHONE "
 				+ "FROM CLIENTS C LEFT JOIN PHONE P ON C.CLIENT_ID = P.CLIENT_ID WHERE CLIENT_CATEGORY = ? ORDER BY C.CLIENT_ID";
 		List<ClientVO> clients = new ArrayList<ClientVO>();
 		ClientVO vo;
-		switch (n) {
-		case 1:
-			ca = "　웨이트　";
-			break;
-		case 2:
-			ca = "파워리프팅";
-			break;
-		case 3:
-			ca = "　요　가　";
-			break;
-		case 4:
-			ca = " 크로스핏 ";
-			break;
-		}
 		try {
 			connection = dao.getConnection();
 			psmt = connection.prepareStatement(sql);
@@ -149,6 +134,7 @@ public class ClientServiceImpl implements ClientService {
 
 	public int findUnsetId() {
 		int c = 1;
+		String cId;
 		boolean b = false;
 
 		String sql = "SELECT CLIENT_ID FROM CLIENTS WHERE CLIENT_ID = ?";
@@ -156,20 +142,21 @@ public class ClientServiceImpl implements ClientService {
 		try {
 			connection = dao.getConnection();
 			psmt = connection.prepareStatement(sql);
-
+			////////////////////////////////////////
 			while (!b) {
-				String u = "";
+				cId = "";
 				psmt.setInt(1, c);
 				rs = psmt.executeQuery();
 				if (rs.next()) {
-					u = rs.getString("client_id");
+					cId = rs.getString("client_id");
 				}
-				if (!u.equals("")) {
+				if (!cId.equals("")) {
 					c++;
 				} else {
 					b = true;
 				}
 			}
+			////////////////////////////////////////
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -186,6 +173,7 @@ public class ClientServiceImpl implements ClientService {
 		try {
 			int count = findUnsetId();
 			connection = dao.getConnection();
+			///////////////////////////////////////
 			psmt = connection.prepareStatement(sql1);
 			psmt.setInt(1, count);
 			psmt.setString(2, vo.getClientCategory());
@@ -194,11 +182,12 @@ public class ClientServiceImpl implements ClientService {
 			psmt.setInt(5, vo.getClientHeight());
 			psmt.setInt(6, vo.getClientWeight());
 			n = psmt.executeUpdate();
-			
+			////////////////////////////////////////
 			psmt = connection.prepareStatement(sql2);
 			psmt.setInt(1, count);
 			psmt.setString(2, vo.getClientPhone());
 			n = psmt.executeUpdate();
+			////////////////////////////////////////
 			System.out.println("고객번호: " + count);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -217,10 +206,12 @@ public class ClientServiceImpl implements ClientService {
 			connection = dao.getConnection();
 			psmt = connection.prepareStatement(sql1);
 			psmt.setInt(1, vo.getClientId());
+			////////////////////////////////////////
 			n = psmt.executeUpdate();
 			psmt = connection.prepareStatement(sql2);
 			psmt.setInt(1, vo.getClientId());
 			n = psmt.executeUpdate();
+			////////////////////////////////////////
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -236,15 +227,18 @@ public class ClientServiceImpl implements ClientService {
 		String sql2 = "UPDATE PHONE SET CLIENT_PHONE = ? WHERE CLIENT_ID = ?";
 		try {
 			connection = dao.getConnection();
+			////////////////////////////////////////
 			psmt = connection.prepareStatement(sql1);
 			psmt.setString(1, vo.getClientCategory());
 			psmt.setInt(2, vo.getClientWeight());
 			psmt.setInt(3, vo.getClientId());
 			n += psmt.executeUpdate();
+			////////////////////////////////////////
 			psmt = connection.prepareStatement(sql2);
 			psmt.setString(1, vo.getClientPhone());
 			psmt.setInt(2, vo.getClientId());
 			n += psmt.executeUpdate();
+			////////////////////////////////////////
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

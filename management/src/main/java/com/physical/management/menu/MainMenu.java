@@ -21,6 +21,15 @@ public class MainMenu {
 		System.out.print("선택>> ");
 	}
 
+	private void appTitle2() {
+		System.out.println(" -고객정보 조회-");
+		System.out.println("[1] 전체고객 조회");
+		System.out.println("[2] 단일고객 조회");
+		System.out.println("[3] 종 목 별 조회");
+		System.out.println("[0] 뒤로\n");
+		System.out.print("선택>> ");
+	}
+
 	public void run() {
 		boolean b = false;
 
@@ -59,15 +68,6 @@ public class MainMenu {
 			}
 		} while (!b);
 		sc.close();
-	}
-
-	private void appTitle2() {
-		System.out.println(" -고객정보 조회-");
-		System.out.println("[1] 전체고객 조회");
-		System.out.println("[2] 단일고객 조회");
-		System.out.println("[3] 종 목 별 조회");
-		System.out.println("[0] 뒤로\n");
-		System.out.print("선택>> ");
 	}
 
 	public void run2() {
@@ -114,6 +114,7 @@ public class MainMenu {
 			System.out.println("[2] 성 명 조회");
 			System.out.println("[0] 뒤로\n");
 			System.out.print("선택>> ");
+			///////////////////////////////////
 			try {
 				menu = sc.nextInt();
 			} catch (Exception e) {
@@ -122,6 +123,7 @@ public class MainMenu {
 				continue;
 			}
 			sc.nextLine();
+			///////////////////////////////////////////////////
 			if (menu > 2 || menu < 0) {
 				System.out.println("존재하지 않는 메뉴번호입니다.\n");
 			}
@@ -139,10 +141,30 @@ public class MainMenu {
 		} while (!b);
 	}
 
+	private String stringCategory(int category) {
+		String cate = "";
+		switch (category) {
+		case 1:
+			cate = "　웨이트　";
+			break;
+		case 2:
+			cate = ("파워리프팅");
+			break;
+		case 3:
+			cate = ("　요　가　");
+			break;
+		case 4:
+			cate = (" 크로스핏 ");
+			break;
+		}
+		return cate;
+	}
+
 	private void clientList() {
 		List<ClientVO> clients = cs.clientList();
 		if (!clients.isEmpty()) {
 			System.out.println("번호 종목    성명  나이 키 몸무게   전화번호");
+			///////////////////////////////////////////////////////////
 			for (ClientVO client : clients) {
 				client.toString();
 			}
@@ -155,11 +177,11 @@ public class MainMenu {
 
 	private void clientSelect() {
 		ClientVO client = new ClientVO();
-		boolean b = false;
 		int no = 0;
 		do {
 			System.out.println("");
 			System.out.print("-아이디 조회- | [0] 취소\n고객번호: ");
+			////////////////////////////////////////////////
 			try {
 				no = sc.nextInt();
 				sc.nextLine();
@@ -172,6 +194,7 @@ public class MainMenu {
 				System.out.println("존재하지 않는 메뉴번호입니다.\n");
 				continue;
 			}
+			///////////////////////////////////////////////////
 			client.setClientId(no);
 			client = cs.clientSelect(client);
 			if (client.getClientName() != null) {
@@ -181,13 +204,11 @@ public class MainMenu {
 			} else {
 				System.out.println("존재하지 않는 고객번호입니다.\n");
 			}
-			b = true;
 			continue;
-		} while (!b);
+		} while (true);
 	}
 
 	private void clientSelects() {
-		boolean b = false;
 		do {
 			System.out.println("-종목별 조회-");
 			System.out.println("[1] 웨이트");
@@ -196,21 +217,25 @@ public class MainMenu {
 			System.out.println("[4] 크로스핏");
 			System.out.println("[0] 취소");
 			System.out.print("선택>> ");
-			int menu2 = 0;
+			int intCategory = 0;
+			///////////////////////////////////////////////
 			try {
-				menu2 = Integer.parseInt(sc.nextLine());
-				if (menu2 < 0 || menu2 > 4) {
+				intCategory = Integer.parseInt(sc.nextLine());
+				if (intCategory < 0 || intCategory > 4) {
 					System.out.println("존재하지 않는 메뉴번호입니다.\n");
 					continue;
-				} else if (menu2 == 0) {
+				} else if (intCategory == 0) {
 					System.out.println("");
 					return;
 				}
-				List<ClientVO> clients = cs.clientSelects(menu2);
+				////////////////////////////////////////////////
+				List<ClientVO> clients = cs.clientSelects(stringCategory(intCategory));
+				//////////////////////////////////////////////////////////////////////
 				if (clients.isEmpty()) {
 					System.out.println("등록된 고객정보가 없습니다.\n");
 					continue;
 				}
+				//////////////////////////////////////////////////////
 				System.out.println("번호 종목    성명  나이 키 몸무게   전화번호");
 				for (ClientVO client : clients) {
 					client.toString();
@@ -220,23 +245,25 @@ public class MainMenu {
 				System.out.println("존재하지 않는 메뉴번호입니다.\n");
 			}
 			continue;
-		} while (!b);
+		} while (true);
 	}
 
 	private void clientSelectName() {
 		String name = "";
 		do {
-
 			System.out.print("-성명 조회- | [0] 취소\n성명>> ");
 			name = sc.nextLine();
 			if (name.equals("0")) {
 				return;
 			}
+			///////////////////////////////////////////////////
 			List<ClientVO> client = cs.clientSelectName(name);
+			//////////////////////////////////////////////////
 			if (client.isEmpty()) {
 				System.out.println("존재하지 않는 고객명입니다.\n");
 				continue;
 			}
+			///////////////////////////////////////////////////
 			System.out.println("번호 종목    성명  나이 키 몸무게   전화번호");
 			for (ClientVO clients : client) {
 				clients.toString();
@@ -257,30 +284,34 @@ public class MainMenu {
 			System.out.println("[4] 크로스핏");
 			System.out.println("[0] 취소");
 			System.out.print("선택>> ");
-
+			///////////////////////////////////////////////////////
 			try {
-				int category = Integer.parseInt(sc.nextLine());
-				if (category > 4 || category < 0) {
+				int intCategory = Integer.parseInt(sc.nextLine());
+				if (intCategory > 4 || intCategory < 0) {
 					System.out.println("존재하지 않는 종목입니다.\n");
 					continue;
-				}
-				switch (category) {
-				case 1:
-					client.setClientCategory("　웨이트　");
-					break;
-				case 2:
-					client.setClientCategory("파워리프팅");
-					break;
-				case 3:
-					client.setClientCategory("　요　가　");
-					break;
-				case 4:
-					client.setClientCategory(" 크로스핏 ");
-					break;
-				case 0:
-					System.out.println("");
+				} else if (intCategory == 0) {
 					return;
 				}
+				/////////////////////////////////////////////////////
+				client.setClientCategory(stringCategory(intCategory));
+//				switch (intCategory) {
+//				case 1:
+//					client.setClientCategory("　웨이트　");
+//					break;
+//				case 2:
+//					client.setClientCategory("파워리프팅");
+//					break;
+//				case 3:
+//					client.setClientCategory("　요　가　");
+//					break;
+//				case 4:
+//					client.setClientCategory(" 크로스핏 ");
+//					break;
+//				case 0:
+//					System.out.println("");
+//					return;
+//				}
 				System.out.print("성명: ");
 				client.setClientName(sc.nextLine());
 				System.out.print("나이: ");
@@ -291,12 +322,12 @@ public class MainMenu {
 				client.setClientWeight(Integer.parseInt(sc.nextLine()));
 				System.out.print("전화번호: ");
 				client.setClientPhone(sc.nextLine());
+				///////////////////////////////////////////////////////
 				if (cs.clientInsert(client) != 0) {
 					System.out.println("정상적으로 등록되었습니다.\n");
 					b = true;
 				} else {
 					System.out.println("등록 오류\n");
-					b = true;
 					continue;
 				}
 			} catch (Exception e) {
@@ -310,7 +341,9 @@ public class MainMenu {
 		boolean b = false;
 		do {
 			int n = 0;
+
 			System.out.print("-고객정보삭제- | [0] 취소\n고객번호: ");
+
 			try {
 				n = sc.nextInt();
 				sc.nextLine();
@@ -318,7 +351,9 @@ public class MainMenu {
 					System.out.println("");
 					return;
 				}
+				////////////////////////////////////////////////
 				client.setClientId(n);
+				///////////////////////////////////////////////
 				if (cs.clientDelete(client) != 0) {
 					System.out.println("정상적으로 삭제되었습니다.\n");
 					b = true;
@@ -348,6 +383,7 @@ public class MainMenu {
 					System.out.println("");
 					return;
 				}
+				//////////////////////////////////////////////////
 				client.setClientId(n);
 				client = cs.clientSelect(client);
 				if (client.getClientName() == (null)) {
@@ -356,33 +392,26 @@ public class MainMenu {
 				}
 				System.out.println("번호 종목    성명  나이 키 몸무게   전화번호");
 				client.toString();
+				/////////////////////////////////////////////////////////
 				System.out.println("종목:");
 				System.out.println("[1] 웨이트");
 				System.out.println("[2] 파워리프팅");
 				System.out.println("[3] 요가");
 				System.out.println("[4] 크로스핏");
+				System.out.println("[0] 취소");
 				System.out.print("선택>> ");
 
-				int category = sc.nextInt();
+				int intCategory = sc.nextInt();
 				sc.nextLine();
-				if (category > 4 || category < 1) {
+				if (intCategory > 4 || intCategory < 0) {
 					System.out.println("존재하지 않는 종목입니다.\n");
 					continue;
+				} else if (intCategory == 0) {
+					System.out.println("");
+					return;
 				}
-				switch (category) {
-				case 1:
-					client.setClientCategory("　웨이트　");
-					break;
-				case 2:
-					client.setClientCategory("파워리프팅");
-					break;
-				case 3:
-					client.setClientCategory("　요　가　");
-					break;
-				case 4:
-					client.setClientCategory(" 크로스핏 ");
-					break;
-				}
+				client.setClientCategory(stringCategory(intCategory));
+				///////////////////////////////////////////////////////
 				System.out.print("몸무게: ");
 				client.setClientWeight(sc.nextInt());
 				sc.nextLine();
@@ -402,4 +431,5 @@ public class MainMenu {
 			}
 		} while (!b);
 	}
+
 }
