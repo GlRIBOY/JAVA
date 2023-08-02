@@ -1,5 +1,7 @@
 Manifest-Version: 1.0
 Built-By: admin
 Build-Jdk: 17.0.7
+Class-Path: lib/ojdbc8-21.10.0.0.jar
+Main-Class: com.physical.management.App
 Created-By: Maven Integration for Eclipse
 
